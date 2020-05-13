@@ -1,6 +1,11 @@
 :root {
   --windowTop: #30333F;
-  --windowText: #51545E;
+  --windowButtons: #51545E;
+  --windowText: #727580;
+  --windowRadius: 8px;
+  --red: #EC6A5E;
+  --yellow: #F5BF4F;
+  --green: #62C654;
 }
 * {
   -webkit-box-sizing: border-box;
@@ -14,26 +19,75 @@ body {
   margin: auto;
 }
 .window-top {
-  height: 44px;
+  padding: 8px;
   color: var(--windowText);
   text-align: center;
   background-color: var(--windowTop);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top: ridge 2px var(--windowButtons);
+  border-right: ridge 2px var(--windowButtons);
+  border-left: ridge 2px var(--windowButtons);
+  border-top-left-radius: var(--windowRadius);
+  border-top-right-radius: var(--windowRadius);
+  overflow: hidden;
 }
 .window-bottom {
-  height: 44px;
+  height: 10px;
   background-color: black;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom: ridge 2px var(--windowButtons);
+  border-right: ridge 2px var(--windowButtons);
+  border-left: ridge 2px var(--windowButtons);
+  border-bottom-left-radius: var(--windowRadius);
+  border-bottom-right-radius: var(--windowRadius);
+}
+.buttons {
+  float: left;
+}
+.button {
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 50%;
+  display: inline-block;
+
+}
+.red {
+  background-color: var(--red);
+}
+.yellow {
+  background-color: var(--yellow);
+}
+.green {
+  background-color: var(--green);
 }
 .zoom {
   background-color: black;
+  border-right: ridge 2px var(--windowButtons);
+  border-left: ridge 2px var(--windowButtons);
   display: flex;
   justify-content: space-around;
+  flex-flow: row wrap;
 }
 .zoom-pane {
-  border: solid 1px white;
+  width: 24%;
+  margin-top: 12px;
   align-items: center;
+}
+.zoom-pane img {
+  width: 100%;
+}
 
+@media screen and (max-width: 820px) {
+  .zoom-pane {
+    width: 32%;
+  }
+}
+@media screen and (max-width: 760px) {
+  .zoom-pane {
+    width: 48%;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .zoom-pane {
+    width: 96%
+  }
 }
