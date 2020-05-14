@@ -16,7 +16,7 @@
 }
 body {
   font-family: sans-serif;
-  background: var(--mainBackground) top/cover no-repeat url("/i/desktop.png");
+  background: var(--mainBackground) top/cover no-repeat url("../i/desktop.png");
 }
 .hidden {
   display: none;

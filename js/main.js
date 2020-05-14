@@ -10,7 +10,7 @@ const buildZoomPanes = zoomers => {
     return `
       <div class="zoom-pane" data-zoomerId=${i}>
         <figure>
-          <img src="/i/profile/zoom/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
+          <img src="../i/profile/zoom/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
         </figure>
       </div>
     `;
@@ -24,7 +24,7 @@ const buildStudentProfile = zoomer => {
   profileDiv.insertAdjacentHTML('afterbegin', `
     <div class="student">
       <figure>
-        <img src="/i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
+        <img src="../i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
         <figcaption>MOST LIKELY to...</figcaption>
       </figure>
     </div>
