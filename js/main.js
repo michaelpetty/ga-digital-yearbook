@@ -25,7 +25,7 @@ const buildStudentProfile = zoomer => {
     <div class="student">
       <figure>
         <img src="./i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
-        <figcaption>MOST LIKELY to...</figcaption>
+        <figcaption>${zoomer[Math.floor(Math.random() * (zoomer.length-1)) + 1]}</figcaption>
       </figure>
     </div>
   `);
