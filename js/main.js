@@ -17,9 +17,28 @@ const buildZoomPanes = zoomers => {
   })
 }
 
-const displayZoom = zoomers => {
-  const zoomWindow = document.querySelector('.zoom');
-  zoomWindow.insertAdjacentHTML('afterbegin', buildZoomPanes(zoomers).join(''));
+const buildStudentProfile = zoomer => {
+  const profileDiv = document.createElement('div');
+  profileDiv.classList.add('zoom');
+  profileDiv.id = 'student-profile'
+  profileDiv.insertAdjacentHTML('afterbegin', `
+    <div class="student">
+      <figure>
+        <img src="/i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
+        <figcaption>MOST LIKELY to...</figcaption>
+      </figure>
+    </div>
+  `);
+  return profileDiv;
+}
+
+const displayZoom = (zoomers, ele) => {
+  ele.insertAdjacentHTML('afterbegin', buildZoomPanes(zoomers).join(''));
+}
+
+const displayZoomModal = zoomer => {
+  document.getElementById('student-profile').replaceWith(buildStudentProfile(zoomer));
+  document.querySelector('.zoom-modal').classList.remove('hidden');
 }
 
 const randomizeListOrder = list => {
@@ -32,4 +51,14 @@ const randomizeListOrder = list => {
   return randomList;
 }
 
-displayZoom(randomizeListOrder(userData));
+const zoomersRandom = randomizeListOrder(userData);
+const zoomWindow = document.getElementById('zoom-classroom');
+displayZoom(zoomersRandom, zoomWindow);
+
+zoomWindow.addEventListener('click', e => {
+  displayZoomModal(zoomersRandom[e.target.parentNode.parentNode.dataset.zoomerid]);
+})
+
+document.querySelector('.zoom-modal .buttons').addEventListener('click', e => {
+  document.querySelector('.zoom-modal').classList.add('hidden');
+})

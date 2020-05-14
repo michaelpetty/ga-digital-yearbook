@@ -7,6 +7,8 @@
   --red: #EC6A5E;
   --yellow: #F5BF4F;
   --green: #62C654;
+  --zoomActive: #F7F9A4;
+  --zoomHover: #D2F992;
 }
 * {
   -webkit-box-sizing: border-box;
@@ -16,9 +18,19 @@ body {
   font-family: sans-serif;
   background: var(--mainBackground) top/cover no-repeat url("/i/desktop.png");
 }
+.hidden {
+  display: none;
+}
 .window {
   width: 80%;
   margin: 2em auto;
+}
+.zoom-modal {
+  width: 40%;
+  position: absolute;
+  top: 3.3em;
+  left: 28%;
+  z-index: 20;
 }
 .window-top {
   padding: 8px;
@@ -52,6 +64,9 @@ body {
   display: inline-block;
 
 }
+.button:hover {
+  transform: scale(1.3);
+}
 .red {
   background-color: var(--red);
 }
@@ -77,6 +92,21 @@ body {
 }
 .zoom-pane img {
   width: 100%;
+}
+.zoom-pane img:hover {
+  border: solid 2px var(--zoomHover);
+}
+.zoom-pane img:active {
+  border: solid 4px var(--zoomActive);
+}
+
+.student figcaption {
+  position: relative;
+  bottom: 32px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 8px;
+  margin: 0 10px 0 0;
 }
 
 @media screen and (max-width: 820px) {
