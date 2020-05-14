@@ -1,4 +1,5 @@
 :root {
+  --mainBackground: #BCBDC2;
   --windowTop: #30333F;
   --windowButtons: #51545E;
   --windowText: #727580;
@@ -13,10 +14,11 @@
 }
 body {
   font-family: sans-serif;
+  background: var(--mainBackground) top/cover no-repeat url("/i/desktop.png");
 }
 .window {
   width: 80%;
-  margin: auto;
+  margin: 2em auto;
 }
 .window-top {
   padding: 8px;
@@ -38,6 +40,7 @@ body {
   border-left: ridge 2px var(--windowButtons);
   border-bottom-left-radius: var(--windowRadius);
   border-bottom-right-radius: var(--windowRadius);
+  box-shadow: 0 10px 10px;
 }
 .buttons {
   float: left;
@@ -62,6 +65,7 @@ body {
   background-color: black;
   border-right: ridge 2px var(--windowButtons);
   border-left: ridge 2px var(--windowButtons);
+  box-shadow: 0 10px 10px;
   display: flex;
   justify-content: space-around;
   flex-flow: row wrap;
@@ -87,6 +91,13 @@ body {
 }
 
 @media screen and (max-width: 560px) {
+  body {
+    background: var(--mainBackground);
+  }
+  .window {
+    width: 99%;
+    margin: 2px;
+  }
   .zoom-pane {
     width: 96%
   }
