@@ -19,7 +19,7 @@ const buildZoomPanes = zoomers => {
 
 const buildStudentProfile = zoomer => {
   const profileDiv = document.createElement('div');
-  profileDiv.classList.add('zoom');
+  profileDiv.classList.add('window-main');
   profileDiv.id = 'student-profile'
   profileDiv.insertAdjacentHTML('afterbegin', `
     <div class="student">
@@ -38,7 +38,7 @@ const displayZoom = (zoomers, ele) => {
 
 const displayZoomModal = zoomer => {
   document.getElementById('student-profile').replaceWith(buildStudentProfile(zoomer));
-  document.querySelector('.zoom-modal').classList.remove('hidden');
+  document.querySelector('.modal').classList.remove('hidden');
 }
 
 const randomizeListOrder = list => {
@@ -59,6 +59,10 @@ zoomWindow.addEventListener('click', e => {
   displayZoomModal(zoomersRandom[e.target.parentNode.parentNode.dataset.zoomerid]);
 })
 
-document.querySelector('.zoom-modal .buttons').addEventListener('click', e => {
-  document.querySelector('.zoom-modal').classList.add('hidden');
+document.querySelector('.modal .buttons').addEventListener('click', e => {
+  document.querySelector('.modal').classList.add('hidden');
+})
+
+document.querySelector('.ga-folder').addEventListener('click', e => {
+  console.log('clicked folder');
 })
