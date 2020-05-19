@@ -145,6 +145,13 @@ h6 {
 .student img, .instructor img {
   width: 100%;
 }
+.refresh {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  background: top/cover no-repeat url(../i/refresh.png);
+  cursor: pointer;
+}
 .instructor {
   display: grid;
   grid-template-columns: 60px 1fr;

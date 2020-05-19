@@ -6,10 +6,14 @@ const getFirstName = (zoomer) => {
   return (zoomer[0].split(' '))[0];
 }
 
+const getRandomCaption = zoomer => {
+  return zoomer[Math.floor(Math.random() * (zoomer.length-1)) + 1]
+}
+
 const buildZoomPanes = zoomers => {
   return zoomers.map((zoomer, i) => {
     return `
-      <div class="zoom-pane" data-zoomerId=${i}>
+      <div class="zoom-pane" data-zoomerid=${i}>
         <figure>
           <img src="./i/profile/zoom/${getFirstName(zoomer).toLowerCase()}.png" alt="${zoomer[0]}" />
         </figure>
@@ -25,7 +29,7 @@ const buildStudentProfile = zoomer => {
     <div class="student">
       <figure>
         <img src="./i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="${zoomer[0]}" />
-        <figcaption>${zoomer[Math.floor(Math.random() * (zoomer.length-1)) + 1]}</figcaption>
+        <figcaption><span>${getRandomCaption(zoomer)}</span>&nbsp;<div class="refresh"></div></figcaption>
       </figure>
     </div>
   `);
@@ -73,12 +77,13 @@ const displayZoom = (zoomers, ele) => {
   ele.insertAdjacentHTML('afterbegin', buildZoomPanes(zoomers).join(''));
 }
 
-const buildModal = (ele, type) => {
+const buildModal = (ele, type, id) => {
   (type === 'zoom')? ele.classList.remove('slack') : ele.classList.remove('zoom');
   ele.classList.add(type);
+  ele.setAttribute('data-zoomerid', id)
 }
-const displayZoomModal = (zoomer, ele) => {
-  buildModal(ele, 'zoom');
+const displayZoomModal = (zoomer, ele, id) => {
+  buildModal(ele, 'zoom', id);
   ele.querySelector('h3').innerText = `SEI 9 - ${zoomer[0]}`;
   ele.querySelector('.window-main').replaceWith(buildStudentProfile(zoomer));
   ele.classList.remove('hidden');
@@ -94,21 +99,6 @@ const randomizeListOrder = list => {
   return randomList;
 }
 
-let zoomWindow = document.getElementById('zoom-classroom');
-let modalEle = document.querySelector('.modal');
-
-
-document.querySelector('.modal .buttons').addEventListener('click', e => {
-  modalEle.classList.add('hidden');
-})
-
-document.querySelector('.ga-folder').addEventListener('click', e => {
-  buildModal(modalEle, 'slack');
-  modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
-  // TODO: displayModal(modalEle);
-  modalEle.classList.remove('hidden');
-})
-
 const cleanData = arr => {
   arr.forEach((zoomer, i) => {
     arr[i] = zoomer.filter(cell => cell !== '');
@@ -117,12 +107,33 @@ const cleanData = arr => {
 }
 
 const loadPage = data => {
+  let zoomWindow = document.getElementById('zoom-classroom');
+  let modalEle = document.querySelector('.modal');
+
+  document.querySelector('.ga-folder').addEventListener('click', e => {
+    buildModal(modalEle, 'slack');
+    modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
+    // TODO: displayModal(modalEle);
+    modalEle.classList.remove('hidden');
+  })
+
   let zoomersRandom = randomizeListOrder(data);
   displayZoom(zoomersRandom, zoomWindow);
 
   zoomWindow.addEventListener('click', e => {
-    displayZoomModal(zoomersRandom[e.target.parentNode.parentNode.dataset.zoomerid], modalEle);
+    let zoomerId = e.target.parentNode.parentNode.dataset.zoomerid;
+    displayZoomModal(zoomersRandom[zoomerId], modalEle, zoomerId);
   })
+
+  document.querySelector('.modal').addEventListener('click', e => {
+    if (e.target.parentNode.className === 'buttons') {
+      modalEle.classList.add('hidden');
+    } else if (e.target.localName === 'figcaption' || e.target.parentNode.localName === 'figcaption') {
+      let zoomerId = e.path[4].dataset.zoomerid || e.path[5].dataset.zoomerid;
+      modalEle.querySelector('figcaption span').innerText = getRandomCaption(zoomersRandom[zoomerId]);
+    }
+  })
+
 }
 
 fetch('./js/userData.csv')
