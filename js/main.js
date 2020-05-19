@@ -1,16 +1,17 @@
-import {userData} from './userData.js';
+import {tempo} from './jquery.csv.js';
 
 console.log('You rock!');
 
 const getFirstName = (zoomer) => {
   return (zoomer[0].split(' '))[0];
 }
+
 const buildZoomPanes = zoomers => {
   return zoomers.map((zoomer, i) => {
     return `
       <div class="zoom-pane" data-zoomerId=${i}>
         <figure>
-          <img src="./i/profile/zoom/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
+          <img src="./i/profile/zoom/${getFirstName(zoomer).toLowerCase()}.png" alt="${zoomer[0]}" />
         </figure>
       </div>
     `;
@@ -18,12 +19,12 @@ const buildZoomPanes = zoomers => {
 }
 
 const buildStudentProfile = zoomer => {
-  const profileDiv = document.createElement('div');
+  let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
   profileDiv.insertAdjacentHTML('afterbegin', `
     <div class="student">
       <figure>
-        <img src="./i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="anya on zoom" />
+        <img src="./i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="${zoomer[0]}" />
         <figcaption>${zoomer[Math.floor(Math.random() * (zoomer.length-1)) + 1]}</figcaption>
       </figure>
     </div>
@@ -33,7 +34,7 @@ const buildStudentProfile = zoomer => {
 
 const buildInstructorProfile = (ele) => {
   ele.querySelector('h3').innerText = '#sei-sf09-strictlybiz';
-  const profileDiv = document.createElement('div');
+  let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
   profileDiv.insertAdjacentHTML('afterbegin', `
     <div class="instructor">
@@ -84,23 +85,18 @@ const displayZoomModal = (zoomer, ele) => {
 }
 
 const randomizeListOrder = list => {
-  const randomList = [];
-  const tmpList = Array(...list);
-  const len = tmpList.length;
+  let randomList = [];
+  let tmpList = Array(...list);
+  let len = tmpList.length;
   for (let i=0; i<len; i++) {
     randomList.push(tmpList.splice(Math.floor(Math.random()*tmpList.length), 1)[0])
   }
   return randomList;
 }
 
-const zoomersRandom = randomizeListOrder(userData);
-const zoomWindow = document.getElementById('zoom-classroom');
-const modalEle = document.querySelector('.modal');
-displayZoom(zoomersRandom, zoomWindow);
+let zoomWindow = document.getElementById('zoom-classroom');
+let modalEle = document.querySelector('.modal');
 
-zoomWindow.addEventListener('click', e => {
-  displayZoomModal(zoomersRandom[e.target.parentNode.parentNode.dataset.zoomerid], modalEle);
-})
 
 document.querySelector('.modal .buttons').addEventListener('click', e => {
   modalEle.classList.add('hidden');
@@ -109,6 +105,28 @@ document.querySelector('.modal .buttons').addEventListener('click', e => {
 document.querySelector('.ga-folder').addEventListener('click', e => {
   buildModal(modalEle, 'slack');
   modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
-  //displayModal(modalEle);
+  // TODO: displayModal(modalEle);
   modalEle.classList.remove('hidden');
 })
+
+const cleanData = arr => {
+  arr.forEach((zoomer, i) => {
+    arr[i] = zoomer.filter(cell => cell !== '');
+  })
+  return arr;
+}
+
+const loadPage = data => {
+  let zoomersRandom = randomizeListOrder(data);
+  displayZoom(zoomersRandom, zoomWindow);
+
+  zoomWindow.addEventListener('click', e => {
+    displayZoomModal(zoomersRandom[e.target.parentNode.parentNode.dataset.zoomerid], modalEle);
+  })
+}
+
+fetch('./js/userData.csv')
+  .then(res => res.text())
+  .then(data => {
+    loadPage(cleanData(tempo.csv.toArrays(data)));
+  });
