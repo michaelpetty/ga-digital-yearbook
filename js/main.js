@@ -1,4 +1,5 @@
-import {tempo} from './jquery.csv.js';
+import {parser} from './jquery.csv.js';
+import {instructorData} from './instructorData.js';
 
 console.log('You rock!');
 
@@ -36,7 +37,7 @@ const buildStudentProfile = zoomer => {
   return profileDiv;
 }
 
-const buildInstructorProfile = (ele) => {
+const buildInstructorProfile = (ele, instructor) => {
   ele.querySelector('h3').innerText = '#sei-sf09-strictlybiz';
   let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
@@ -48,23 +49,29 @@ const buildInstructorProfile = (ele) => {
       <div class="content">
         <h4>Profile</h4>
         <figure>
-          <img src="./i/profile/michael.png" alt="Michael Petty" />
+          <img src="./i/instructor/${instructor.img}" alt="${instructor.name}" />
         </figure>
-        <h2>Michael Petty</h2>
-        <h5>SEI Instructor - SF</h5>
+        <h2>${instructor.name}</h2>
+        <h5>${instructor.title}</h5>
         <ul>
+        ${(instructor.linkedIn) && `
           <li>
             <h6>LinkedIn</h6>
-            <a href="https://www.linkedin.com/in/michaelpetty42/">https://www.linkedin.com/in/michaelpetty42/</a>
+            <a href="${instructor.linkedIn}">${instructor.linkedIn}</a>
           </li>
+          `}
+          ${(instructor.github) && `
           <li>
             <h6>GitHub</h6>
-            <a href="https://github.com/michaelpetty">https://github.com/michaelpetty</a>
+            <a href="${instructor.github}">${instructor.github}</a>
           </li>
+          `}
+          ${(instructor.email) && `
           <li>
             <h6>Email Address</h6>
-            <a href="mailto:michael.petty@gmail.com">michael.petty@gmail.com</a>
+            <a href="mailto:${instructor.email}">${instructor.email}</a>
           </li>
+          `}
         </ul>
       </div>
     </div>
@@ -72,7 +79,20 @@ const buildInstructorProfile = (ele) => {
   return profileDiv;
 }
 
-const buildFinderGA = (ele) => {
+const buildFolders = folders => {
+  let folderHTML = '';
+  folders.forEach((folder, i) => {
+    folderHTML += `
+      <figure class="folder" data-instructorid="${i}">
+        <img src="./i/folder.png" alt="folder icon" />
+        <figcaption>${folder.name.split(' ')[0]}</figcaption>
+      </figure>
+    `
+  })
+  return folderHTML;
+}
+
+const buildFinderGA = (ele, instructors) => {
   ele.querySelector('h3').innerHTML = '<img src="./i/folder.png" alt="folder icon">GA';
   let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
@@ -88,18 +108,7 @@ const buildFinderGA = (ele) => {
         </ul>
       </div>
       <div class="content">
-        <figure>
-          <img src="./i/folder.png" alt="folder icon" />
-          <figcaption>Brock</figcaption>
-        </figure>
-        <figure>
-          <img src="./i/folder.png" alt="folder icon" />
-          <figcaption>Kenny</figcaption>
-        </figure>
-        <figure>
-          <img src="./i/folder.png" alt="folder icon" />
-          <figcaption>Michael</figcaption>
-        </figure>
+      ${buildFolders(instructors)}
       </div>
     </div>
   `);
@@ -113,17 +122,17 @@ const displayZoom = (zoomers, ele) => {
 const buildModal = (ele, type, id) => {
   switch (type[0]) {
     case 'zoom':
-      ele.classList.remove('slack', 'finder');
+      ele.classList.remove('slack', 'finder', 'ga');
       break;
     case 'slack':
-      ele.classList.remove('zoom', 'finder');
+      ele.classList.remove('zoom', 'finder', 'ga');
       break;
     case 'finder':
       ele.classList.remove('zoom', 'slack');
       break;
   }
   ele.classList.add(...type);
-  ele.setAttribute('data-zoomerid', id)
+  ele.setAttribute('data-zoomerid', (id)? id:'');
 }
 const displayZoomModal = (zoomer, ele, id) => {
   buildModal(ele, ['zoom'], id);
@@ -149,25 +158,18 @@ const cleanData = arr => {
   return arr;
 }
 
-const loadPage = data => {
+const loadPage = (students, instructors) => {
   let zoomWindow = document.getElementById('zoom-classroom');
   let modalEle = document.querySelector('.modal');
 
   document.querySelector('.folder.ga').addEventListener('click', e => {
     buildModal(modalEle, ['finder','ga']);
-    modalEle.querySelector('.window-main').replaceWith(buildFinderGA(modalEle));
+    modalEle.querySelector('.window-main').replaceWith(buildFinderGA(modalEle, instructors));
     // TODO: displayModal(modalEle);
     modalEle.classList.remove('hidden');
   })
 
-  // document.querySelector('.finder-ga').addEventListener('click', e => {
-  //   buildModal(modalEle, ['slack']);
-  //   modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
-  //   // TODO: displayModal(modalEle);
-  //   modalEle.classList.remove('hidden');
-  // })
-
-  let zoomersRandom = randomizeListOrder(data);
+  let zoomersRandom = randomizeListOrder(students);
   displayZoom(zoomersRandom, zoomWindow);
 
   zoomWindow.addEventListener('click', e => {
@@ -176,25 +178,26 @@ const loadPage = data => {
   })
 
   document.querySelector('.modal').addEventListener('click', e => {
-    console.log(e);
     let paths = e.composedPath();
     if (e.target.parentNode.className === 'buttons') {
       modalEle.classList.add('hidden');
-    } else if (e.target.localName === 'figcaption' || e.target.parentNode.localName === 'figcaption') {
-      let zoomerId = paths[4].dataset.zoomerid || paths[5].dataset.zoomerid;
-      modalEle.querySelector('figcaption span').innerText = getRandomCaption(zoomersRandom[zoomerId]);
-    } else if (e.target.localName === 'img') {
-      buildModal(modalEle, ['slack']);
-      modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
-      // TODO: displayModal(modalEle);
-      modalEle.classList.remove('hidden');
+    } else if (paths[0].localName === 'figure' || paths[1].localName === 'figure' || paths[2].localName === 'figure' ) {
+      if (paths[0].className === 'folder' || paths[1].className === 'folder') {
+        let instructorId = paths[0].dataset.instructorid || paths[1].dataset.instructorid;
+        buildModal(modalEle, ['slack']);
+        modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle, instructors[instructorId]));
+        // TODO: displayModal(modalEle);
+        modalEle.classList.remove('hidden');
+      } else if (paths[0].localName === 'figcaption' || paths[1].localName === 'figcaption') {
+        let zoomerId = paths[4].dataset.zoomerid || paths[5].dataset.zoomerid;
+        modalEle.querySelector('figcaption span').innerText = getRandomCaption(zoomersRandom[zoomerId]);
+      }
     }
   })
-
 }
 
 fetch('./js/userData.csv')
   .then(res => res.text())
   .then(data => {
-    loadPage(cleanData(tempo.csv.toArrays(data)));
+    loadPage(cleanData(parser.csv.toArrays(data)), instructorData);
   });

@@ -30,7 +30,7 @@ RegExp.escape = function (s) {
   return s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
-export const tempo = (function () {
+export const parser = (function () {
   'use strict';
 
   var $;
