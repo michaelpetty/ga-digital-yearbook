@@ -70,7 +70,40 @@ const buildInstructorProfile = (ele) => {
     </div>
   `);
   return profileDiv;
+}
 
+const buildFinderGA = (ele) => {
+  ele.querySelector('h3').innerHTML = '<img src="./i/folder.png" alt="folder icon">GA';
+  let profileDiv = document.createElement('div');
+  profileDiv.classList.add('window-main');
+  profileDiv.insertAdjacentHTML('afterbegin', `
+    <div class="finder-main">
+      <div class="side">
+        Favorites
+        <ul>
+          <li>Recents</li>
+          <li>Applications</li>
+          <li>Downloads</li>
+          <li>Desktop</li>
+        </ul>
+      </div>
+      <div class="content">
+        <figure>
+          <img src="./i/folder.png" alt="folder icon" />
+          <figcaption>Brock</figcaption>
+        </figure>
+        <figure>
+          <img src="./i/folder.png" alt="folder icon" />
+          <figcaption>Kenny</figcaption>
+        </figure>
+        <figure>
+          <img src="./i/folder.png" alt="folder icon" />
+          <figcaption>Michael</figcaption>
+        </figure>
+      </div>
+    </div>
+  `);
+  return profileDiv;
 }
 
 const displayZoom = (zoomers, ele) => {
@@ -78,12 +111,22 @@ const displayZoom = (zoomers, ele) => {
 }
 
 const buildModal = (ele, type, id) => {
-  (type === 'zoom')? ele.classList.remove('slack') : ele.classList.remove('zoom');
-  ele.classList.add(type);
+  switch (type[0]) {
+    case 'zoom':
+      ele.classList.remove('slack', 'finder');
+      break;
+    case 'slack':
+      ele.classList.remove('zoom', 'finder');
+      break;
+    case 'finder':
+      ele.classList.remove('zoom', 'slack');
+      break;
+  }
+  ele.classList.add(...type);
   ele.setAttribute('data-zoomerid', id)
 }
 const displayZoomModal = (zoomer, ele, id) => {
-  buildModal(ele, 'zoom', id);
+  buildModal(ele, ['zoom'], id);
   ele.querySelector('h3').innerText = `SEI 9 - ${zoomer[0]}`;
   ele.querySelector('.window-main').replaceWith(buildStudentProfile(zoomer));
   ele.classList.remove('hidden');
@@ -110,12 +153,19 @@ const loadPage = data => {
   let zoomWindow = document.getElementById('zoom-classroom');
   let modalEle = document.querySelector('.modal');
 
-  document.querySelector('.ga-folder').addEventListener('click', e => {
-    buildModal(modalEle, 'slack');
-    modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
+  document.querySelector('.folder.ga').addEventListener('click', e => {
+    buildModal(modalEle, ['finder','ga']);
+    modalEle.querySelector('.window-main').replaceWith(buildFinderGA(modalEle));
     // TODO: displayModal(modalEle);
     modalEle.classList.remove('hidden');
   })
+
+  // document.querySelector('.finder-ga').addEventListener('click', e => {
+  //   buildModal(modalEle, ['slack']);
+  //   modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
+  //   // TODO: displayModal(modalEle);
+  //   modalEle.classList.remove('hidden');
+  // })
 
   let zoomersRandom = randomizeListOrder(data);
   displayZoom(zoomersRandom, zoomWindow);
@@ -126,11 +176,18 @@ const loadPage = data => {
   })
 
   document.querySelector('.modal').addEventListener('click', e => {
+    console.log(e);
+    let paths = e.composedPath();
     if (e.target.parentNode.className === 'buttons') {
       modalEle.classList.add('hidden');
     } else if (e.target.localName === 'figcaption' || e.target.parentNode.localName === 'figcaption') {
-      let zoomerId = e.path[4].dataset.zoomerid || e.path[5].dataset.zoomerid;
+      let zoomerId = paths[4].dataset.zoomerid || paths[5].dataset.zoomerid;
       modalEle.querySelector('figcaption span').innerText = getRandomCaption(zoomersRandom[zoomerId]);
+    } else if (e.target.localName === 'img') {
+      buildModal(modalEle, ['slack']);
+      modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle));
+      // TODO: displayModal(modalEle);
+      modalEle.classList.remove('hidden');
     }
   })
 
