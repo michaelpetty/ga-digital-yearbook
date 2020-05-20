@@ -92,8 +92,8 @@ const buildFolders = folders => {
   return folderHTML;
 }
 
-const buildFinderGA = (ele, instructors) => {
-  ele.querySelector('h3').innerHTML = '<img src="./i/folder.png" alt="folder icon">GA';
+const buildFinder = (ele, title, folders) => {
+  ele.querySelector('h3').innerHTML = `<img src="./i/folder.png" alt="folder icon">${title}`;
   let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
   profileDiv.insertAdjacentHTML('afterbegin', `
@@ -108,7 +108,7 @@ const buildFinderGA = (ele, instructors) => {
         </ul>
       </div>
       <div class="content">
-      ${buildFolders(instructors)}
+      ${buildFolders(folders)}
       </div>
     </div>
   `);
@@ -122,13 +122,13 @@ const displayZoom = (zoomers, ele) => {
 const buildModal = (ele, type, id) => {
   switch (type[0]) {
     case 'zoom':
-      ele.classList.remove('slack', 'finder', 'ga');
+      ele.classList.remove('slack', 'finder', 'ga', 'spirit');
       break;
     case 'slack':
-      ele.classList.remove('zoom', 'finder', 'ga');
+      ele.classList.remove('zoom', 'finder', 'ga', 'spirit');
       break;
     case 'finder':
-      ele.classList.remove('zoom', 'slack');
+      ele.classList.remove('zoom', 'slack', (type[1] === 'spirit')? 'ga' : 'spirit');
       break;
   }
   ele.classList.add(...type);
@@ -162,19 +162,34 @@ const loadPage = (students, instructors) => {
   let zoomWindow = document.getElementById('zoom-classroom');
   let modalEle = document.querySelector('.modal');
 
-  document.querySelector('.folder.ga').addEventListener('click', e => {
-    buildModal(modalEle, ['finder','ga']);
-    modalEle.querySelector('.window-main').replaceWith(buildFinderGA(modalEle, instructors));
-    // TODO: displayModal(modalEle);
-    modalEle.classList.remove('hidden');
-  })
-
   let zoomersRandom = randomizeListOrder(students);
   displayZoom(zoomersRandom, zoomWindow);
 
   zoomWindow.addEventListener('click', e => {
     let zoomerId = e.target.parentNode.parentNode.dataset.zoomerid;
     displayZoomModal(zoomersRandom[zoomerId], modalEle, zoomerId);
+  })
+
+  document.querySelector('.folder.ga').addEventListener('click', e => {
+    buildModal(modalEle, ['finder','ga']);
+    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'GA', instructors));
+    // TODO: displayModal(modalEle);
+    modalEle.classList.remove('hidden');
+  })
+
+  document.querySelector('.folder.spirit').addEventListener('click', e => {
+    buildModal(modalEle, ['finder','spirit']);
+    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'SPIRIT', instructors));
+    // TODO: displayModal(modalEle);
+    modalEle.classList.remove('hidden');
+  })
+
+  document.querySelector('.folder.sei9').addEventListener('click', e => {
+    document.querySelector('.window.zoom').classList.remove('hidden');
+  })
+
+  document.querySelector('.window.zoom .buttons').addEventListener('click', e => {
+    document.querySelector('.window.zoom').classList.add('hidden');
   })
 
   document.querySelector('.modal').addEventListener('click', e => {
