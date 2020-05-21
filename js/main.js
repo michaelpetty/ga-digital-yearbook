@@ -123,6 +123,16 @@ const displayZoom = (zoomers, ele) => {
   ele.insertAdjacentHTML('afterbegin', buildZoomPanes(zoomers).join(''));
 }
 
+const buildSpirit = (spirit, ele) => {
+  ele.innerText = '';
+  ele.insertAdjacentHTML('afterbegin', `
+  <figure>
+    <img src="./i/spirit/${spirit.img}" alt="folder icon" />
+    <figcaption>${spirit.name}</figcaption>
+  </figure>
+  `);
+}
+
 const buildModal = (ele, type, id) => {
   switch (type[0]) {
     case 'zoom':
@@ -163,7 +173,8 @@ const cleanData = arr => {
 }
 
 const loadPage = (students, instructors, spirit) => {
-  let zoomWindow = document.getElementById('zoom-classroom');
+  let zoomWindow = document.getElementById('zoom-main');
+  let zoomSpirit = document.getElementById('zoom-spirit');
   let modalEle = document.querySelector('.modal');
 
   let zoomersRandom = randomizeListOrder(students);
@@ -196,17 +207,27 @@ const loadPage = (students, instructors, spirit) => {
     document.querySelector('.window.zoom').classList.add('hidden');
   })
 
+  zoomSpirit.addEventListener('click', e => {
+    zoomSpirit.classList.toggle('hidden');
+    zoomWindow.classList.toggle('hidden');
+  })
   document.querySelector('.modal').addEventListener('click', e => {
     let paths = e.composedPath();
     if (e.target.parentNode.className === 'buttons') {
       modalEle.classList.add('hidden');
     } else if (paths[0].localName === 'figure' || paths[1].localName === 'figure' || paths[2].localName === 'figure' ) {
       if (paths[0].className === 'folder' || paths[1].className === 'folder') {
-        let instructorId = paths[0].dataset.fileid || paths[1].dataset.fileid;
-        buildModal(modalEle, ['slack']);
-        modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle, instructors[instructorId]));
-        // TODO: displayModal(modalEle);
-        modalEle.classList.remove('hidden');
+        let dataId = paths[0].dataset.fileid || paths[1].dataset.fileid;
+        if (paths[4].className === 'modal finder ga' || paths[5].className === 'modal finder ga') {
+          buildModal(modalEle, ['slack']);
+          modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle, instructors[dataId]));
+          // TODO: displayModal(modalEle);
+          modalEle.classList.remove('hidden');
+        } else if (paths[4].className === 'modal finder spirit' || paths[5].className === 'modal finder spirit') {
+          buildSpirit(spiritData[dataId], zoomSpirit);
+          zoomSpirit.classList.remove('hidden');
+          zoomWindow.classList.add('hidden');
+        }
       } else if (paths[0].localName === 'figcaption' || paths[1].localName === 'figcaption') {
         let zoomerId = paths[4].dataset.zoomerid || paths[5].dataset.zoomerid;
         modalEle.querySelector('figcaption span').innerText = getRandomCaption(zoomersRandom[zoomerId]);

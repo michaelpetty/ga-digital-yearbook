@@ -40,9 +40,6 @@ h6 {
   font-size: .8em;
   color: var(--windowText);
 }
-.hidden {
-  display: none;
-}
 .window {
   width: 80%;
   margin: 2em auto;
@@ -152,14 +149,12 @@ h6 {
 .finder .window-main {
   border-right: ridge 2px var(--windowBorderFinder);
   border-left: ridge 2px var(--windowBorderFinder);
+  background-color: white;
 }
 .zoom .window-main {
   background-color: black;
 }
 .slack .window-main {
-  background-color: white;
-}
-.finder .window-main {
   background-color: white;
 }
 .zoom-pane {
@@ -176,7 +171,16 @@ h6 {
 .zoom-pane img:active {
   border: solid 4px var(--zoomActive);
 }
-.student figcaption {
+.window-spirit {
+  border-right: ridge 2px var(--windowButtons);
+  border-left: ridge 2px var(--windowButtons);
+  box-shadow: 0 10px 10px;
+  background-color: black;
+}
+.window-spirit figure {
+  overflow: hidden;
+}
+.student figcaption, .window-spirit figcaption {
   position: relative;
   max-width: 502px;
   bottom: 32px;
@@ -185,7 +189,7 @@ h6 {
   padding: 8px;
   margin: 0 10px -32px 0;
 }
-.student img, .instructor img {
+.student img, .instructor img, .window-spirit img {
   width: 100%;
 }
 .refresh {
@@ -282,6 +286,9 @@ h6 {
 }
 .folder.sei9 figcaption, .folder.spirit figcaption {
   color: white;
+}
+.hidden {
+  display: none;
 }
 @media screen and (max-width: 820px) {
   .zoom-pane {
