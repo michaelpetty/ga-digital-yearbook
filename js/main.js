@@ -1,5 +1,5 @@
 import {parser} from './jquery.csv.js';
-import {instructorData} from './instructorData.js';
+import {instructorData, spiritData} from './instructorData.js';
 
 console.log('You rock!');
 
@@ -83,9 +83,13 @@ const buildFolders = folders => {
   let folderHTML = '';
   folders.forEach((folder, i) => {
     folderHTML += `
-      <figure class="folder" data-instructorid="${i}">
-        <img src="./i/folder.png" alt="folder icon" />
-        <figcaption>${folder.name.split(' ')[0]}</figcaption>
+      <figure class="folder" data-fileid="${i}">
+        ${(folder.file)? `
+          <img src="./i/spirit/${folder.img}" alt="${folder.name}" />
+        ` : `
+          <img src="./i/folder.png" alt="folder icon" />
+        `}
+        <figcaption>${(folder.file)? `${folder.name}` : `${folder.name.split(' ')[0]}`}</figcaption>
       </figure>
     `
   })
@@ -158,7 +162,7 @@ const cleanData = arr => {
   return arr;
 }
 
-const loadPage = (students, instructors) => {
+const loadPage = (students, instructors, spirit) => {
   let zoomWindow = document.getElementById('zoom-classroom');
   let modalEle = document.querySelector('.modal');
 
@@ -179,7 +183,7 @@ const loadPage = (students, instructors) => {
 
   document.querySelector('.folder.spirit').addEventListener('click', e => {
     buildModal(modalEle, ['finder','spirit']);
-    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'SPIRIT', instructors));
+    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'SPIRIT', spirit));
     // TODO: displayModal(modalEle);
     modalEle.classList.remove('hidden');
   })
@@ -198,7 +202,7 @@ const loadPage = (students, instructors) => {
       modalEle.classList.add('hidden');
     } else if (paths[0].localName === 'figure' || paths[1].localName === 'figure' || paths[2].localName === 'figure' ) {
       if (paths[0].className === 'folder' || paths[1].className === 'folder') {
-        let instructorId = paths[0].dataset.instructorid || paths[1].dataset.instructorid;
+        let instructorId = paths[0].dataset.fileid || paths[1].dataset.fileid;
         buildModal(modalEle, ['slack']);
         modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle, instructors[instructorId]));
         // TODO: displayModal(modalEle);
@@ -214,5 +218,5 @@ const loadPage = (students, instructors) => {
 fetch('./js/userData.csv')
   .then(res => res.text())
   .then(data => {
-    loadPage(cleanData(parser.csv.toArrays(data)), instructorData);
+    loadPage(cleanData(parser.csv.toArrays(data)), instructorData, spiritData);
   });
