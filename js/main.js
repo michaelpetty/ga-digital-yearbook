@@ -227,6 +227,7 @@ const loadPage = (students, instructors, spirit) => {
           buildSpirit(spiritData[dataId], zoomSpirit);
           zoomSpirit.classList.remove('hidden');
           zoomWindow.classList.add('hidden');
+          document.querySelector('.window.zoom').classList.remove('hidden');
         }
       } else if (paths[0].localName === 'figcaption' || paths[1].localName === 'figcaption') {
         let zoomerId = paths[4].dataset.zoomerid || paths[5].dataset.zoomerid;
