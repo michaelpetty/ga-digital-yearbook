@@ -85,7 +85,7 @@ const buildFolders = folders => {
     folderHTML += `
       <figure class="folder" data-fileid="${i}">
         ${(folder.file)? `
-          <img src="./i/spirit/${folder.img}" alt="${folder.name}" />
+          <img src="./i/spirit/th/${folder.img}" alt="${folder.name}" />
         ` : `
           <img src="./i/folder.png" alt="folder icon" />
         `}
