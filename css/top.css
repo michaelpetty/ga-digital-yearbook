@@ -16,6 +16,7 @@
   --windowBorderFinder: #EEEEEE;
 }
 * {
+  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -166,10 +167,10 @@ h6 {
   width: 100%;
 }
 .zoom-pane img:hover {
-  border: solid 2px var(--zoomHover);
+  outline: solid 2px var(--zoomHover);
 }
 .zoom-pane img:active {
-  border: solid 4px var(--zoomActive);
+  outline: solid 4px var(--zoomActive);
 }
 .window-spirit {
   border-right: ridge 2px var(--windowButtons);
@@ -180,6 +181,12 @@ h6 {
 .window-spirit figure {
   overflow: hidden;
 }
+.student img.refresh {
+  width: initial;
+  height: 1.5em;
+  display: inline-block;
+  cursor: pointer;
+}
 .student figcaption, .window-spirit figcaption {
   position: relative;
   max-width: 502px;
@@ -188,16 +195,12 @@ h6 {
   background-color: rgba(0, 0, 0, 0.8);
   padding: 8px;
   margin: 0 10px -32px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .student img, .instructor img, .window-spirit img {
   width: 100%;
-}
-.refresh {
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  background: top/cover no-repeat url(../i/refresh.png);
-  cursor: pointer;
 }
 .instructor {
   display: grid;

@@ -30,7 +30,7 @@ const buildStudentProfile = zoomer => {
     <div class="student">
       <figure>
         <img src="./i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="${zoomer[0]}" />
-        <figcaption><span>${getRandomCaption(zoomer)}</span>&nbsp;<div class="refresh"></div></figcaption>
+        <figcaption><span>${getRandomCaption(zoomer)}</span><img class="refresh" src="../i/refresh.png"></figcaption>
       </figure>
     </div>
   `);
@@ -227,6 +227,7 @@ const loadPage = (students, instructors, spirit) => {
           buildSpirit(spiritData[dataId], zoomSpirit);
           zoomSpirit.classList.remove('hidden');
           zoomWindow.classList.add('hidden');
+          modalEle.classList.add('hidden');
           document.querySelector('.window.zoom').classList.remove('hidden');
         }
       } else if (paths[0].localName === 'figcaption' || paths[1].localName === 'figcaption') {
