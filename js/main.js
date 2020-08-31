@@ -242,7 +242,7 @@ const loadPage = (students, instructors, spirit) => {
   })
 }
 
-fetch('./js/SEI-R12.csv')
+fetch('./js/SEIR12.csv')
   .then(res => res.text())
   .then(data => {
     loadPage(cleanData(parser.csv.toArrays(data)), instructorData, spiritData);
