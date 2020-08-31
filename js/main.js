@@ -28,7 +28,7 @@ const buildStudentProfile = zoomer => {
     <div class="student">
       <figure>
         <img src="${s3BaseUrl}/slack/${zoomer.slackImg}" alt="${zoomer.name}" />
-        <figcaption><span>${getRandomCaption(zoomer.quotes)}</span><img class="refresh" src="../i/refresh.png"></figcaption>
+        <figcaption><span>${getRandomCaption(zoomer.quotes)}</span><img class="refresh" src="./i/refresh.png"></figcaption>
       </figure>
     </div>
   `);
