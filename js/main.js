@@ -6,7 +6,7 @@ const s3BaseUrl = "https://ga-digital-yearbook.s3-us-west-1.amazonaws.com/sei-r-
 console.log('You got this!');
 
 const getRandomCaption = zoomer => {
-  return zoomer[Math.floor(Math.random() * (zoomer.length-1))]
+  return zoomer[Math.floor(Math.random() * (zoomer.length))]
 }
 
 const buildZoomPanes = zoomers => {
