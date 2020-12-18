@@ -17,7 +17,7 @@ export const instructorData = [
     file: false
   }, {
     name: 'Jacob Kleiman',
-    email:'',
+    email:'jacobakleiman@gmail.com',
     linkedIn:'',
     github:'',
     img:'jacob.png',
