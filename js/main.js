@@ -1,7 +1,7 @@
 import {parser} from './jquery.csv.js';
 import {instructorData, spiritData} from './instructorData.js';
 
-const s3BaseUrl = "https://ga-digital-yearbook.s3-us-west-1.amazonaws.com/sei-r-12";
+const s3BaseUrl = "https://ga-digital-yearbook.s3-us-west-1.amazonaws.com/seir-921";
 
 console.log('You got this!');
 
@@ -36,7 +36,7 @@ const buildStudentProfile = zoomer => {
 }
 
 const buildInstructorProfile = (ele, instructor) => {
-  ele.querySelector('h3').innerText = '#sei-r12-strictlybiz';
+  ele.querySelector('h3').innerText = '#seir_921_strictlybiz';
   let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
   profileDiv.insertAdjacentHTML('afterbegin', `
@@ -148,7 +148,7 @@ const buildModal = (ele, type, id) => {
 }
 const displayZoomModal = (zoomer, ele, id) => {
   buildModal(ele, ['zoom'], id);
-  ele.querySelector('h3').innerText = `SEI 12 - ${zoomer.name}`;
+  ele.querySelector('h3').innerText = `SEIR 921 - ${zoomer.name}`;
   ele.querySelector('.window-main').replaceWith(buildStudentProfile(zoomer));
   ele.classList.remove('hidden');
 }
@@ -203,7 +203,7 @@ const loadPage = (students, instructors, spirit) => {
     modalEle.classList.remove('hidden');
   })
 
-  document.querySelector('.folder.sei12').addEventListener('click', e => {
+  document.querySelector('.folder.sei').addEventListener('click', e => {
     document.querySelector('.window.zoom').classList.remove('hidden');
   })
 
@@ -242,7 +242,7 @@ const loadPage = (students, instructors, spirit) => {
   })
 }
 
-fetch('./js/SEIR12.csv')
+fetch('./js/SEIR921.csv')
   .then(res => res.text())
   .then(data => {
     loadPage(cleanData(parser.csv.toArrays(data)), instructorData, spiritData);
