@@ -290,6 +290,9 @@ h6 {
 .folder.sei figcaption, .folder.spirit figcaption {
   color: white;
 }
+.folder a {
+  margin: auto;
+}
 .hidden {
   display: none;
 }

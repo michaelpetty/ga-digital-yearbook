@@ -28,15 +28,17 @@ export const instructorData = [
 
 export const spiritData = [
   {
-    name: 'Tropical Vacation',
-    img: 'SEIintheTropics.gif',
-    thumb: 'SEIintheTropics.png',
-    file: true
+    name: 'SEIR 921 Git',
+    img: '',
+    thumb: '',
+    file: true,
+    link: 'https://git.generalassemb.ly/seir-921'
   },
   {
-    name: 'Out of this World',
-    img: 'MIBFlash3.gif',
-    thumb: 'MIBFlash3.png',
-    file: true
+    name: 'Seattle Gitbook',
+    img: '',
+    thumb: '',
+    file: true,
+    link: 'https://gawdiseattle.gitbook.io/wdi/'
   },
 ]

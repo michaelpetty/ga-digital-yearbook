@@ -80,14 +80,19 @@ const buildInstructorProfile = (ele, instructor) => {
 const buildFolders = folders => {
   let folderHTML = '';
   folders.forEach((folder, i) => {
+    folderHTML += `<figure class="folder" data-fileid="${i}">`
+    if (folder.file) {
     folderHTML += `
-      <figure class="folder" data-fileid="${i}">
-        ${(folder.file)? `
-          <img src="${s3BaseUrl}/spirit/th/${folder.thumb}" alt="${folder.name}" />
+        ${(folder.link)? `
+          <a href="${folder.link}" target="_blank"><img src="./i/file.png"/></a>
         ` : `
-          <img src="./i/folder.png" alt="folder icon" />
-        `}
-        <figcaption>${(folder.file)? `${folder.name}` : `${folder.name.split(' ')[0]}`}</figcaption>
+          <img src="${s3BaseUrl}/spirit/th/${folder.thumb}" alt="${folder.name}" />
+        `}`
+      } else {
+        folderHTML += '<img src="./i/folder.png" alt="folder icon" />'
+      }
+    folderHTML += `
+      <figcaption>${(folder.file)? `${folder.name}` : `${folder.name.split(' ')[0]}`}</figcaption>
       </figure>
     `
   })
@@ -198,7 +203,7 @@ const loadPage = (students, instructors, spirit) => {
 
   document.querySelector('.folder.spirit').addEventListener('click', e => {
     buildModal(modalEle, ['finder','spirit']);
-    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'SPIRIT', spirit));
+    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'RESOURCES', spirit));
     // TODO: displayModal(modalEle);
     modalEle.classList.remove('hidden');
   })
@@ -227,7 +232,7 @@ const loadPage = (students, instructors, spirit) => {
           modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle, instructors[dataId]));
           // TODO: displayModal(modalEle);
           modalEle.classList.remove('hidden');
-        } else if (paths[4].className === 'modal finder spirit' || paths[5].className === 'modal finder spirit') {
+        } else if (!spirit[0].link && (paths[4].className === 'modal finder spirit' || paths[5].className === 'modal finder spirit')) {
           buildSpirit(spiritData[dataId], zoomSpirit);
           zoomSpirit.classList.remove('hidden');
           zoomWindow.classList.add('hidden');
