@@ -1,17 +1,9 @@
 export const instructorData = [
   {
-    name: 'Brock Whitbread-Cole',
-    email:'brock.whitbread@gmail.com',
-    linkedIn:'https://www.linkedin.com/in/brockwhitbread/',
-    github:'https://github.com/brockwc/',
-    img:'brock.png',
-    title:'SEI Lead Instructor - SF',
-    file: false
-  }, {
     name: 'Kenny Bushman',
-    email:'',
-    linkedIn:'',
-    github:'',
+    email:'k.bushman@yahoo.com',
+    linkedIn:'https://www.linkedin.com/in/kenny-bushman/',
+    github:'https://github.com/kbbushman',
     img:'kenny.png',
     title:'SEI Lead Instructor - SF',
     file: false
@@ -19,42 +11,32 @@ export const instructorData = [
     name: 'Michael Petty',
     email:'michael.petty@gmail.com',
     linkedIn:'https://www.linkedin.com/in/michaelpetty42/',
-    github:'https://github.com/michaelpetty/',
+    github:'https://github.com/michaelpetty',
     img:'michael.png',
     title:'SEI Instructor - SF',
     file: false
-  }
+  }, {
+    name: 'Yulia Tsernant',
+    email:'yulia.tsernant@gmail.com',
+    linkedIn:'https://www.linkedin.com/in/yuliatsernant/',
+    github:'https://github.com/LiaTsernant',
+    img:'yulia.png',
+    title:'Instructor Associate - SF',
+    file: false
+  },
 ]
 
 export const spiritData = [
   {
-    name: 'Matrix Monday',
-    img: 'sei9monochromaticmonday.gif',
+    name: 'Tropical Vacation',
+    img: 'SEIintheTropics.gif',
+    thumb: 'SEIintheTropics.png',
     file: true
   },
   {
-    name: 'SportsBall',
-    img: 'sei9sportsday.gif',
-    file: true
-  },
-  {
-    name: 'Wacky Wednesday',
-    img: 'sei9hat.gif',
-    file: true
-  },
-  {
-    name: 'Throwback Thursday',
-    img: 'sei9throwbackthursday.gif',
-    file: true
-  },
-  {
-    name: 'Fancy Friday 1',
-    img: 'sei9fancyfriday.gif',
-    file: true
-  },
-  {
-    name: 'Fancy Friday 2',
-    img: 'sei9fancyfridayy.gif',
+    name: 'Out of this World',
+    img: 'MIBFlash3.gif',
+    thumb: 'MIBFlash3.png',
     file: true
   },
 ]

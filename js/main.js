@@ -1,14 +1,12 @@
 import {parser} from './jquery.csv.js';
 import {instructorData, spiritData} from './instructorData.js';
 
-console.log('You rock!');
+const s3BaseUrl = "https://ga-digital-yearbook.s3-us-west-1.amazonaws.com/sei-r-12";
 
-const getFirstName = (zoomer) => {
-  return (zoomer[0].split(' '))[0];
-}
+console.log('You got this!');
 
 const getRandomCaption = zoomer => {
-  return zoomer[Math.floor(Math.random() * (zoomer.length-1)) + 1]
+  return zoomer[Math.floor(Math.random() * (zoomer.length))]
 }
 
 const buildZoomPanes = zoomers => {
@@ -16,7 +14,7 @@ const buildZoomPanes = zoomers => {
     return `
       <div class="zoom-pane" data-zoomerid=${i}>
         <figure>
-          <img src="./i/profile/zoom/${getFirstName(zoomer).toLowerCase()}.png" alt="${zoomer[0]}" />
+          <img src="${s3BaseUrl}/zoom/${zoomer.zoomImg}"  alt="${zoomer.name}" />
         </figure>
       </div>
     `;
@@ -29,8 +27,8 @@ const buildStudentProfile = zoomer => {
   profileDiv.insertAdjacentHTML('afterbegin', `
     <div class="student">
       <figure>
-        <img src="./i/profile/${getFirstName(zoomer).toLowerCase()}.png" alt="${zoomer[0]}" />
-        <figcaption><span>${getRandomCaption(zoomer)}</span><img class="refresh" src="../i/refresh.png"></figcaption>
+        <img src="${s3BaseUrl}/slack/${zoomer.slackImg}" alt="${zoomer.name}" />
+        <figcaption><span>${getRandomCaption(zoomer.quotes)}</span><img class="refresh" src="./i/refresh.png"></figcaption>
       </figure>
     </div>
   `);
@@ -38,7 +36,7 @@ const buildStudentProfile = zoomer => {
 }
 
 const buildInstructorProfile = (ele, instructor) => {
-  ele.querySelector('h3').innerText = '#sei-sf09-strictlybiz';
+  ele.querySelector('h3').innerText = '#sei-r12-strictlybiz';
   let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
   profileDiv.insertAdjacentHTML('afterbegin', `
@@ -57,13 +55,13 @@ const buildInstructorProfile = (ele, instructor) => {
         ${(instructor.linkedIn) && `
           <li>
             <h6>LinkedIn</h6>
-            <a href="${instructor.linkedIn}">${instructor.linkedIn}</a>
+            <a href="${instructor.linkedIn}" target="_blank">${instructor.linkedIn}</a>
           </li>
           `}
           ${(instructor.github) && `
           <li>
             <h6>GitHub</h6>
-            <a href="${instructor.github}">${instructor.github}</a>
+            <a href="${instructor.github}" target="_blank">${instructor.github}</a>
           </li>
           `}
           ${(instructor.email) && `
@@ -85,7 +83,7 @@ const buildFolders = folders => {
     folderHTML += `
       <figure class="folder" data-fileid="${i}">
         ${(folder.file)? `
-          <img src="./i/spirit/th/${folder.img}" alt="${folder.name}" />
+          <img src="${s3BaseUrl}/spirit/th/${folder.thumb}" alt="${folder.name}" />
         ` : `
           <img src="./i/folder.png" alt="folder icon" />
         `}
@@ -127,7 +125,7 @@ const buildSpirit = (spirit, ele) => {
   ele.innerText = '';
   ele.insertAdjacentHTML('afterbegin', `
   <figure>
-    <img src="./i/spirit/${spirit.img}" alt="folder icon" />
+    <img src="${s3BaseUrl}/spirit/${spirit.img}" alt="folder icon" />
     <figcaption>${spirit.name}</figcaption>
   </figure>
   `);
@@ -150,7 +148,7 @@ const buildModal = (ele, type, id) => {
 }
 const displayZoomModal = (zoomer, ele, id) => {
   buildModal(ele, ['zoom'], id);
-  ele.querySelector('h3').innerText = `SEI 9 - ${zoomer[0]}`;
+  ele.querySelector('h3').innerText = `SEI 12 - ${zoomer.name}`;
   ele.querySelector('.window-main').replaceWith(buildStudentProfile(zoomer));
   ele.classList.remove('hidden');
 }
@@ -167,7 +165,13 @@ const randomizeListOrder = list => {
 
 const cleanData = arr => {
   arr.forEach((zoomer, i) => {
-    arr[i] = zoomer.filter(cell => cell !== '');
+    const [name, slackImg, zoomImg] = zoomer.splice(0, 3);
+    arr[i] = {
+      name,
+      slackImg,
+      zoomImg,
+      quotes: zoomer.filter(cell => /\w/.test(cell))
+    }
   })
   return arr;
 }
@@ -199,7 +203,7 @@ const loadPage = (students, instructors, spirit) => {
     modalEle.classList.remove('hidden');
   })
 
-  document.querySelector('.folder.sei9').addEventListener('click', e => {
+  document.querySelector('.folder.sei12').addEventListener('click', e => {
     document.querySelector('.window.zoom').classList.remove('hidden');
   })
 
@@ -232,13 +236,13 @@ const loadPage = (students, instructors, spirit) => {
         }
       } else if (paths[0].localName === 'figcaption' || paths[1].localName === 'figcaption') {
         let zoomerId = paths[4].dataset.zoomerid || paths[5].dataset.zoomerid;
-        modalEle.querySelector('figcaption span').innerText = getRandomCaption(zoomersRandom[zoomerId]);
+        modalEle.querySelector('figcaption span').innerText = getRandomCaption(zoomersRandom[zoomerId].quotes);
       }
     }
   })
 }
 
-fetch('./js/userData.csv')
+fetch('./js/SEIR12.csv')
   .then(res => res.text())
   .then(data => {
     loadPage(cleanData(parser.csv.toArrays(data)), instructorData, spiritData);
