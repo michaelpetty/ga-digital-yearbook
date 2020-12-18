@@ -17,6 +17,9 @@ export const instructorData = [
     file: false
   }, {
     name: 'Jacob Kleiman',
+    email:'',
+    linkedIn:'',
+    github:'',
     img:'jacob.png',
     title:'SEI Instructor Associate',
     file: false
@@ -31,6 +34,8 @@ export const instructorData = [
   }, {
     name: 'Uyen Lam',
     email: 'ulam10@gmail.com',
+    linkedIn:'',
+    github:'',
     img: 'uyen.png',
     title:'SEI Instructor Associate',
     file: false
