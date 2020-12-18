@@ -16,12 +16,23 @@ export const instructorData = [
     title:'SEI Classroom Instructor - SF',
     file: false
   }, {
+    name: 'Jacob Kleiman',
+    img:'jacob.png',
+    title:'SEI Instructor Associate',
+    file: false
+  }, {
     name: 'Michael Petty',
     email:'michael.petty@gmail.com',
     linkedIn:'https://www.linkedin.com/in/michaelpetty42/',
     github:'https://github.com/michaelpetty',
     img:'michael.png',
     title:'SEI Instructor - SF',
+    file: false
+  }, {
+    name: 'Uyen Lam',
+    email: 'ulam10@gmail.com',
+    img: 'uyen.png',
+    title:'SEI Instructor Associate',
     file: false
   }
 ]
