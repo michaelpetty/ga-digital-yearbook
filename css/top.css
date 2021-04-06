@@ -250,19 +250,19 @@ h6 {
   justify-content: space-around;
   flex-flow: row wrap;
 }
-.finder-main .content figure, .folder.sei12 figure, .folder.spirit figure {
+.finder-main .content figure, .folder.sei figure, .folder.spirit figure {
   width: 100px;
   margin: 20px 6px;
   cursor: pointer;
   display: flex;
   flex-flow: column nowrap;
 }
-.finder-main .content figcaption, .folder.sei12 figcaption, .folder.spirit figcaption {
+.finder-main .content figcaption, .folder.sei figcaption, .folder.spirit figcaption {
   margin: 16px 6px;
   text-align: center;
   font-size: .8em;
 }
-.finder-main .content img, .folder.sei12 img, .folder.spirit img {
+.finder-main .content img, .folder.sei img, .folder.spirit img {
   width: 60px;
   margin: auto;
 }
@@ -276,10 +276,10 @@ h6 {
 .folder.ga:hover {
   cursor: pointer;
 }
-.folder.sei12, .folder.spirit {
+.folder.sei, .folder.spirit {
   position: absolute;
 }
-.folder.sei12 {
+.folder.sei {
   bottom: 9em;
   left: 12em;
 }
@@ -287,8 +287,11 @@ h6 {
   bottom: 3em;
   left: 1.5em;
 }
-.folder.sei12 figcaption, .folder.spirit figcaption {
+.folder.sei figcaption, .folder.spirit figcaption {
   color: white;
+}
+.folder a {
+  margin: auto;
 }
 .hidden {
   display: none;

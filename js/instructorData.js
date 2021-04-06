@@ -1,11 +1,27 @@
 export const instructorData = [
   {
-    name: 'Kenny Bushman',
-    email:'k.bushman@yahoo.com',
-    linkedIn:'https://www.linkedin.com/in/kenny-bushman/',
-    github:'https://github.com/kbbushman',
-    img:'kenny.png',
+    name: 'Brock Whitbread-Cole',
+    email:'brock.whitbread@gmail.com',
+    linkedIn:'https://www.linkedin.com/in/brockwhitbread/',
+    github:'https://github.com/brockwc/',
+    img:'brock.png',
     title:'SEI Lead Instructor - SF',
+    file: false
+  }, {
+    name: 'James Sinkler',
+    email:'james.sinkler@generalassemb.ly',
+    linkedIn:'https://www.linkedin.com/in/jsinkler-713/',
+    github:'https://github.com/JSinkler713',
+    img:'james.jpeg',
+    title:'SEI Classroom Instructor - SF',
+    file: false
+  }, {
+    name: 'Jacob Kleiman',
+    email:'jacobakleiman@gmail.com',
+    linkedIn:'',
+    github:'',
+    img:'jacob.png',
+    title:'SEI Instructor Associate',
     file: false
   }, {
     name: 'Michael Petty',
@@ -16,27 +32,29 @@ export const instructorData = [
     title:'SEI Instructor - SF',
     file: false
   }, {
-    name: 'Yulia Tsernant',
-    email:'yulia.tsernant@gmail.com',
-    linkedIn:'https://www.linkedin.com/in/yuliatsernant/',
-    github:'https://github.com/LiaTsernant',
-    img:'yulia.png',
-    title:'Instructor Associate - SF',
+    name: 'Uyen Lam',
+    email: 'ulam10@gmail.com',
+    linkedIn:'',
+    github:'',
+    img: 'uyen.png',
+    title:'SEI Instructor Associate',
     file: false
-  },
+  }
 ]
 
 export const spiritData = [
   {
-    name: 'Tropical Vacation',
-    img: 'SEIintheTropics.gif',
-    thumb: 'SEIintheTropics.png',
-    file: true
+    name: 'SEIR 921 Git',
+    img: '',
+    thumb: '',
+    file: true,
+    link: 'https://git.generalassemb.ly/seir-921'
   },
   {
-    name: 'Out of this World',
-    img: 'MIBFlash3.gif',
-    thumb: 'MIBFlash3.png',
-    file: true
+    name: 'Seattle Gitbook',
+    img: '',
+    thumb: '',
+    file: true,
+    link: 'https://gawdiseattle.gitbook.io/wdi/'
   },
 ]

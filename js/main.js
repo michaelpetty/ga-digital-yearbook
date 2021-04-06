@@ -1,7 +1,7 @@
 import {parser} from './jquery.csv.js';
 import {instructorData, spiritData} from './instructorData.js';
 
-const s3BaseUrl = "https://ga-digital-yearbook.s3-us-west-1.amazonaws.com/sei-r-12";
+const s3BaseUrl = "https://ga-digital-yearbook.s3-us-west-1.amazonaws.com/seir-921";
 
 console.log('You got this!');
 
@@ -36,7 +36,7 @@ const buildStudentProfile = zoomer => {
 }
 
 const buildInstructorProfile = (ele, instructor) => {
-  ele.querySelector('h3').innerText = '#sei-r12-strictlybiz';
+  ele.querySelector('h3').innerText = '#seir_921_strictlybiz';
   let profileDiv = document.createElement('div');
   profileDiv.classList.add('window-main');
   profileDiv.insertAdjacentHTML('afterbegin', `
@@ -80,14 +80,19 @@ const buildInstructorProfile = (ele, instructor) => {
 const buildFolders = folders => {
   let folderHTML = '';
   folders.forEach((folder, i) => {
+    folderHTML += `<figure class="folder" data-fileid="${i}">`
+    if (folder.file) {
     folderHTML += `
-      <figure class="folder" data-fileid="${i}">
-        ${(folder.file)? `
-          <img src="${s3BaseUrl}/spirit/th/${folder.thumb}" alt="${folder.name}" />
+        ${(folder.link)? `
+          <a href="${folder.link}" target="_blank"><img src="./i/file.png"/></a>
         ` : `
-          <img src="./i/folder.png" alt="folder icon" />
-        `}
-        <figcaption>${(folder.file)? `${folder.name}` : `${folder.name.split(' ')[0]}`}</figcaption>
+          <img src="${s3BaseUrl}/spirit/th/${folder.thumb}" alt="${folder.name}" />
+        `}`
+      } else {
+        folderHTML += '<img src="./i/folder.png" alt="folder icon" />'
+      }
+    folderHTML += `
+      <figcaption>${(folder.file)? `${folder.name}` : `${folder.name.split(' ')[0]}`}</figcaption>
       </figure>
     `
   })
@@ -148,7 +153,7 @@ const buildModal = (ele, type, id) => {
 }
 const displayZoomModal = (zoomer, ele, id) => {
   buildModal(ele, ['zoom'], id);
-  ele.querySelector('h3').innerText = `SEI 12 - ${zoomer.name}`;
+  ele.querySelector('h3').innerText = `SEIR 921 - ${zoomer.name}`;
   ele.querySelector('.window-main').replaceWith(buildStudentProfile(zoomer));
   ele.classList.remove('hidden');
 }
@@ -198,12 +203,12 @@ const loadPage = (students, instructors, spirit) => {
 
   document.querySelector('.folder.spirit').addEventListener('click', e => {
     buildModal(modalEle, ['finder','spirit']);
-    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'SPIRIT', spirit));
+    modalEle.querySelector('.window-main').replaceWith(buildFinder(modalEle, 'RESOURCES', spirit));
     // TODO: displayModal(modalEle);
     modalEle.classList.remove('hidden');
   })
 
-  document.querySelector('.folder.sei12').addEventListener('click', e => {
+  document.querySelector('.folder.sei').addEventListener('click', e => {
     document.querySelector('.window.zoom').classList.remove('hidden');
   })
 
@@ -227,7 +232,7 @@ const loadPage = (students, instructors, spirit) => {
           modalEle.querySelector('.window-main').replaceWith(buildInstructorProfile(modalEle, instructors[dataId]));
           // TODO: displayModal(modalEle);
           modalEle.classList.remove('hidden');
-        } else if (paths[4].className === 'modal finder spirit' || paths[5].className === 'modal finder spirit') {
+        } else if (!spirit[0].link && (paths[4].className === 'modal finder spirit' || paths[5].className === 'modal finder spirit')) {
           buildSpirit(spiritData[dataId], zoomSpirit);
           zoomSpirit.classList.remove('hidden');
           zoomWindow.classList.add('hidden');
@@ -242,7 +247,7 @@ const loadPage = (students, instructors, spirit) => {
   })
 }
 
-fetch('./js/SEIR12.csv')
+fetch('./js/SEIR921.csv')
   .then(res => res.text())
   .then(data => {
     loadPage(cleanData(parser.csv.toArrays(data)), instructorData, spiritData);
