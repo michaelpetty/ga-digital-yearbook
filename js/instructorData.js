@@ -1,5 +1,13 @@
 export const instructorData = [
   {
+    name: 'Ashley Nguyen',
+    email:'',
+    linkedIn:'',
+    github:'',
+    img:'ashley.png',
+    title:'SEI Instructor Associate',
+    file: false
+  }, {
     name: 'Brock Whitbread-Cole',
     email:'brock.whitbread@gmail.com',
     linkedIn:'https://www.linkedin.com/in/brockwhitbread/',
@@ -7,20 +15,12 @@ export const instructorData = [
     img:'brock.png',
     title:'SEI Lead Instructor - SF',
     file: false
-  }, {
-    name: 'James Sinkler',
-    email:'james.sinkler@generalassemb.ly',
-    linkedIn:'https://www.linkedin.com/in/jsinkler-713/',
-    github:'https://github.com/JSinkler713',
-    img:'james.jpeg',
-    title:'SEI Classroom Instructor - SF',
-    file: false
-  }, {
-    name: 'Jacob Kleiman',
-    email:'jacobakleiman@gmail.com',
-    linkedIn:'',
-    github:'',
-    img:'jacob.png',
+  },  {
+    name: 'Mario Carbonell',
+    email:'mgcarbonell@gmail.com',
+    linkedIn:'https://www.linkedin.com/in/mgcarbonell/',
+    github:'https://github.com/mgcarbonell',
+    img:'mario.png',
     title:'SEI Instructor Associate',
     file: false
   }, {
@@ -31,24 +31,16 @@ export const instructorData = [
     img:'michael.png',
     title:'SEI Instructor - SF',
     file: false
-  }, {
-    name: 'Uyen Lam',
-    email: 'ulam10@gmail.com',
-    linkedIn:'',
-    github:'',
-    img: 'uyen.png',
-    title:'SEI Instructor Associate',
-    file: false
   }
 ]
 
 export const spiritData = [
   {
-    name: 'SEIR 921 Git',
+    name: 'WC SEI 0019 Git',
     img: '',
     thumb: '',
     file: true,
-    link: 'https://git.generalassemb.ly/seir-921'
+    link: 'https://git.generalassemb.ly/wc-sei-0119'
   },
   {
     name: 'Seattle Gitbook',
@@ -56,5 +48,11 @@ export const spiritData = [
     thumb: '',
     file: true,
     link: 'https://gawdiseattle.gitbook.io/wdi/'
-  },
+  },{
+    name: 'Calendar',
+    img: '',
+    thumb: '',
+    file: true,
+    link: 'https://pages.git.generalassemb.ly/wc-sei-0119/'
+  }
 ]
