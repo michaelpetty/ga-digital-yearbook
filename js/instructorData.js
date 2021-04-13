@@ -1,9 +1,9 @@
 export const instructorData = [
   {
     name: 'Ashley Nguyen',
-    email:'',
-    linkedIn:'',
-    github:'',
+    email:'smashflashtech@gmail.com',
+    linkedIn:'https://www.linkedin.com/in/aenguyen/',
+    github:'https://github.com/smashflashtech',
     img:'ashley.png',
     title:'SEI Instructor Associate',
     file: false
